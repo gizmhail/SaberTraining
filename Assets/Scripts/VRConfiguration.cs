@@ -10,13 +10,13 @@ public class VRConfiguration : MonoBehaviour
 
     private void Awake()
     {
+        // Register to be notified when hand models have been set up 
         var renderModelLoadedAction = SteamVR_Events.RenderModelLoadedAction(HideControllers);
         renderModelLoadedAction.enabled = true;
     }
 
     private void HideControllers(SteamVR_RenderModel renderModelLoaded, bool action)
     {
-        // Debug.Log(Player.instance.hands.Length + " hands referenced 2/2");
         for (int handIndex = 0; handIndex < Player.instance.hands.Length; handIndex++)
         {
             Hand hand = Player.instance.hands[handIndex];

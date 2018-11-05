@@ -18,6 +18,7 @@ namespace ForceMove
     public static class RigidBodyForceMove
     {
         /*
+         * 
          * According to http://digitalopus.ca/site/pd-controllers/ : 
          * - damping = 1, the system is critically damped
          * - damping > 1 the system is over damped (sluggish)

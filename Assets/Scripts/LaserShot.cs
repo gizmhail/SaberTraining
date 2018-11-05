@@ -10,15 +10,10 @@ public class LaserShot : MonoBehaviour {
         rb.velocity = transform.forward;
         Destroy(gameObject, 5);
     }
-	
-	void FixedUpdate () {
-
-	}
 
     private void OnCollisionEnter(Collision collision)
     {
         rb.velocity = rb.velocity.magnitude * collision.contacts[0].normal;
         transform.rotation = Quaternion.LookRotation(collision.contacts[0].normal);
     }
-
 }
