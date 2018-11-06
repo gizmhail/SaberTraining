@@ -36,6 +36,10 @@
       "requirement": "optional"
     },
     {
+      "name": "/actions/default/in/ForceAction",
+      "type": "vector1"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },

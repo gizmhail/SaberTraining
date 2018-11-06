@@ -22,6 +22,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2b9667bfcca32994fb266c3399d380d4, type: 2}
   - {fileID: 11400000, guid: 3324d963c9bafdb42afbb5a2a2455550, type: 2}
   - {fileID: 11400000, guid: f44026921999e4c46bd5edbd210938bc, type: 2}
+  - {fileID: 11400000, guid: 32a34791e9a1b804f965c1ba7f72aac5, type: 2}
   InteractUI: {fileID: 11400000, guid: 8059e19925544a443ae542f3962865a1, type: 2}
   Teleport: {fileID: 11400000, guid: aa03a9b857d2c0f41b3ef0f4fb147cc2, type: 2}
   GrabPinch: {fileID: 11400000, guid: a7f9f706c33ec1c4699dc07f58f95054, type: 2}
@@ -30,3 +31,4 @@ MonoBehaviour:
   SkeletonLeftHand: {fileID: 11400000, guid: 2b9667bfcca32994fb266c3399d380d4, type: 2}
   SkeletonRightHand: {fileID: 11400000, guid: 3324d963c9bafdb42afbb5a2a2455550, type: 2}
   Squeeze: {fileID: 11400000, guid: f44026921999e4c46bd5edbd210938bc, type: 2}
+  ForceAction: {fileID: 11400000, guid: 32a34791e9a1b804f965c1ba7f72aac5, type: 2}
