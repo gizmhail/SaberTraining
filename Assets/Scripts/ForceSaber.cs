@@ -53,10 +53,31 @@ public class ForceSaber : MonoBehaviour {
     {
         if (SteamVR_Input._default.inActions.InteractUI.GetState(SteamVR_Input_Sources.LeftHand))
         {
-            ForceCatch();
+            // ForceCatch();
         }
         rb.useGravity = (gravityPausedTime == 0);
 
+        if (SteamVR_Input._default.inActions.InteractUI.GetState(SteamVR_Input_Sources.LeftHand))
+        {
+            RaycastHit hit;
+            //if (Physics.Raycast(Player.instance.leftHand.objectAttachmentPoint.transform.position, Player.instance.leftHand.objectAttachmentPoint.transform.forward, out hit, 20))
+            if (Physics.SphereCast(Player.instance.leftHand.objectAttachmentPoint.transform.position, 0.2f, Player.instance.leftHand.objectAttachmentPoint.transform.forward, out hit, 20))
+            {
+                //Debug.Log("Aiming at: " + hit.transform.name);
+                var targetRb = hit.rigidbody;
+                if (targetRb != null) {
+                    var targetTransform = hit.transform;
+                    var targetInteractable = hit.transform.gameObject.GetComponent<Interactable>();
+                    if (targetInteractable != null && targetInteractable.handFollowTransform != null) {
+                        targetTransform = targetInteractable.handFollowTransform;
+                    }
+                    targetRb.AddForceTowards(targetTransform.position, Player.instance.leftHand.objectAttachmentPoint.transform.position, 1.2f, 0.4f);
+                    targetRb.AddTorqueTowards(targetTransform.rotation, Player.instance.leftHand.objectAttachmentPoint.transform.rotation, 1.2f, 0.4f);
+                    targetRb.useGravity = false;
+                    //TODO Reenable gravity
+                }
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
