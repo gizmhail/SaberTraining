@@ -6,9 +6,7 @@ using Valve.VR;
 using Valve.VR.InteractionSystem;
 
 [RequireComponent(typeof(VelocityEstimator), typeof(Rigidbody), typeof(Interactable))]
-public class ForceSaber : MonoBehaviour {
-    public float forceCatchFactor = 3;
-    public Transform forceGrabTarget;
+public class ForceSaber : MonoBehaviour, EnergyLockable {
     public float forceThrowMinimalVelocity = 2;
 
     Hand attachedHand = null;
@@ -20,12 +18,10 @@ public class ForceSaber : MonoBehaviour {
     float gravityPausedTime = 0;
     float gravityPauseDuration = 0;
 
-    #region Monobehavior
-    private void Awake()
-    {
-        if (forceGrabTarget == null) forceGrabTarget = transform;
-    }
+    bool energyLocked = false;
 
+    #region Monobehavior
+ 
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
@@ -48,40 +44,17 @@ public class ForceSaber : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (SteamVR_Input._default.inActions.InteractUI.GetState(SteamVR_Input_Sources.LeftHand))
-        {
-            // ForceCatch();
-        }
-        rb.useGravity = (gravityPausedTime == 0);
-
-        if (SteamVR_Input._default.inActions.InteractUI.GetState(SteamVR_Input_Sources.LeftHand))
-        {
-            RaycastHit hit;
-            //if (Physics.Raycast(Player.instance.leftHand.objectAttachmentPoint.transform.position, Player.instance.leftHand.objectAttachmentPoint.transform.forward, out hit, 20))
-            if (Physics.SphereCast(Player.instance.leftHand.objectAttachmentPoint.transform.position, 0.2f, Player.instance.leftHand.objectAttachmentPoint.transform.forward, out hit, 20))
-            {
-                //Debug.Log("Aiming at: " + hit.transform.name);
-                var targetRb = hit.rigidbody;
-                if (targetRb != null) {
-                    var targetTransform = hit.transform;
-                    var targetInteractable = hit.transform.gameObject.GetComponent<Interactable>();
-                    if (targetInteractable != null && targetInteractable.handFollowTransform != null) {
-                        targetTransform = targetInteractable.handFollowTransform;
-                    }
-                    targetRb.AddForceTowards(targetTransform.position, Player.instance.leftHand.objectAttachmentPoint.transform.position, 1.2f, 0.4f);
-                    targetRb.AddTorqueTowards(targetTransform.rotation, Player.instance.leftHand.objectAttachmentPoint.transform.rotation, 1.2f, 0.4f);
-                    targetRb.useGravity = false;
-                    //TODO Reenable gravity
-                }
-            }
-        }
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (!energyLocked) {
+            rb.useGravity = (gravityPausedTime == 0);
+        }
     }
     #endregion
 
@@ -127,19 +100,17 @@ public class ForceSaber : MonoBehaviour {
     {
         gravityPausedTime = 0;
     }
-    #endregion
 
-    /// <summary>
-    /// Move (based on physics) this saber to left hand
-    /// </summary>
-    void ForceCatch()
+    void EnergyLockable.EnergyLocked(EnergyMove lockSource)
     {
-        PauseGravity(duration: 1);
-
-        //Simple version (in case of inability to use Forcemove sources)
-        //Vector3 grabDirection = Player.instance.leftHand.objectAttachmentPoint.transform.position - forceGrabTarget.position;
-        //rb.AddForce(forceCatchFactor * grabDirection);
-        rb.AddForceTowards(initialPosition: forceGrabTarget.position, destinationPosition: Player.instance.leftHand.objectAttachmentPoint.transform.position);
-        rb.AddTorqueTowards(initialRotation: forceGrabTarget.rotation, destinationRotation: Player.instance.leftHand.objectAttachmentPoint.transform.rotation);
+        energyLocked = true;
     }
+
+    void EnergyLockable.EnergyUnlocked(EnergyMove lockSource)
+    {
+        energyLocked = false;
+        // We prevent our manipulation of the gravity to meddle with gravity restoration by the lock source
+        PauseGravity(duration: lockSource.delayBeforeRestoringGravity);
+    }
+    #endregion
 }
