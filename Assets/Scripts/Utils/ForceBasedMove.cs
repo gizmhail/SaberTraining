@@ -13,7 +13,7 @@ using UnityEngine;
  * /!\ /!\ /!\ 
  */
 
-namespace ForceMove
+namespace ForceBasedMove
 {
     public static class RigidBodyForceMove
     {
