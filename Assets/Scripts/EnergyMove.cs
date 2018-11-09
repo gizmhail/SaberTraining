@@ -209,10 +209,13 @@ public class EnergyMove : MonoBehaviour {
             float currentDistance = grabDirection.magnitude;
             moveSpeed = Mathf.Min(moveSpeed, grabDirection.magnitude);
             lockedRigidbody.velocity = moveSpeed * grabDirection.normalized;
+            Quaternion fullRotation = sourceTransform.rotation * Quaternion.Inverse(rotation);
+            float rotationSpeed = moveSpeed / 360.0f;
+            lockedRigidbody.angularVelocity = rotationSpeed * fullRotation.eulerAngles;
         }
         else {
             float flightTime = Mathf.Min(maxFlightTime, Mathf.Max(minFlightTime, initialLockedDragDistance / moveSpeed));
-            Debug.Log("Flighttime: " + flightTime);
+            // Debug.Log("Flighttime: " + flightTime);
             float damping = 1.2f;
             float frequency = 1.0f/flightTime;
             lockedRigidbody.AddForceTowards(sourceTransform.position, position, damping, frequency);
