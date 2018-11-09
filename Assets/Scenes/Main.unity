@@ -356,6 +356,16 @@ Prefab:
       propertyPath: m_Name
       value: Cube (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 23086376677798064, guid: 262615a9d26df914fad12ee674950656,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 96dde81bbe4779e4eb0f74a7e8e1608f, type: 2}
+    - target: {fileID: 54586743278326894, guid: 262615a9d26df914fad12ee674950656,
+        type: 2}
+      propertyPath: m_Mass
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 262615a9d26df914fad12ee674950656, type: 2}
   m_IsPrefabAsset: 0
@@ -486,6 +496,16 @@ Prefab:
       propertyPath: m_Name
       value: Cube (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 23086376677798064, guid: 262615a9d26df914fad12ee674950656,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1fa1613ac69624a4d921bbff9c06791b, type: 2}
+    - target: {fileID: 54586743278326894, guid: 262615a9d26df914fad12ee674950656,
+        type: 2}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 262615a9d26df914fad12ee674950656, type: 2}
   m_IsPrefabAsset: 0
@@ -520,6 +540,13 @@ MonoBehaviour:
   handType: 1
   delayBeforeRestoringGravity: 1
   energyDragStartPressure: 0.9
+  searchSphereSize: 0.2
+  maxSearchDistance: 20
+  useAdvanceMovePhysics: 1
+  baseMoveSpeed: 5
+  minLockedMass: 0.5
+  maxFlightTime: 2.5
+  minFlightTime: 0.2
 --- !u!4 &1058249336
 Transform:
   m_ObjectHideFlags: 0
@@ -618,6 +645,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 54189804790495150, guid: 5e6499d4d5f2a6f4aaeb13ed11ca2809,
+        type: 2}
+      propertyPath: m_Mass
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e6499d4d5f2a6f4aaeb13ed11ca2809, type: 2}
   m_IsPrefabAsset: 0
@@ -652,6 +684,13 @@ MonoBehaviour:
   handType: 2
   delayBeforeRestoringGravity: 1
   energyDragStartPressure: 0.9
+  searchSphereSize: 0.2
+  maxSearchDistance: 20
+  useAdvanceMovePhysics: 1
+  baseMoveSpeed: 5
+  minLockedMass: 0.5
+  maxFlightTime: 2.5
+  minFlightTime: 0.2
 --- !u!4 &1956683594
 Transform:
   m_ObjectHideFlags: 0
@@ -836,6 +875,16 @@ Prefab:
     - target: {fileID: 1557755139361564, guid: 262615a9d26df914fad12ee674950656, type: 2}
       propertyPath: m_Name
       value: Cube (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 23086376677798064, guid: 262615a9d26df914fad12ee674950656,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 271eebdf52eebe94d82eadb013eea7ac, type: 2}
+    - target: {fileID: 54586743278326894, guid: 262615a9d26df914fad12ee674950656,
+        type: 2}
+      propertyPath: m_Mass
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 262615a9d26df914fad12ee674950656, type: 2}
