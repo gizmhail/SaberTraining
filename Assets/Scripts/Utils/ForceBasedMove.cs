@@ -2,29 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
+/**
  * Based on DigitalOpus article on "CONTROLLING OBJECTS WITH FORCES AND TORQUES":
  * http://digitalopus.ca/site/pd-controllers/
  * More precisly, based on David Wu’s Stable Backwards PD Controller, described in it 
  * (maybe (?) in http://www.pseudointeractive.com/files/physicsandanimationgdc2003.doc)
  * 
  * /!\ /!\ /!\ 
- * License currently undefined. Need to check sources (DigitalOpus and David Wu) licenses
+ * License currently undefined. Need to check sources (DigitalOpus) licenses. Do not use in a commercial product currently
  * /!\ /!\ /!\ 
+ * 
  */
 
 namespace ForceBasedMove
 {
     public static class RigidBodyForceMove
     {
-        /*
-         * 
-         * According to http://digitalopus.ca/site/pd-controllers/ : 
-         * - damping = 1, the system is critically damped
-         * - damping > 1 the system is over damped (sluggish)
-         * - damping is < 1 the system is under damped (it will oscillate a little)
-         * - Frequency is the speed of convergence. If damping is 1, frequency is the 1/time taken to reach ~95% of the target value. i.e. a frequency of 6 will bring you very close to your target within 1/6 seconds.
-         */
+        /// <summary>
+        /// Translate this rigidbody from initial position to target position
+        /// </summary>
+        /// <param name="initialPosition">Start position</param>
+        /// <param name="destinationPosition">Target position</param>
+        /// <param name="damping">See notes</param>
+        /// <param name="frequency">See notes</param>
+        /// Notes:
+        /// According to http://digitalopus.ca/site/pd-controllers/ and David Wu's work: 
+        /// - damping = 1, the system is critically damped
+        /// - damping > 1 the system is over damped(sluggish)
+        /// - damping is less than 1 1 the system is under damped(it will oscillate a little)
+        /// - Frequency is the speed of convergence.If damping is 1, frequency is the 1/time taken to reach ~95% of the target value.i.e.a frequency of 6 will bring you very close to your target within 1/6 seconds.
         public static void AddForceTowards(this Rigidbody rb, Vector3 initialPosition, Vector3 destinationPosition, float damping = 1.2f, float frequency = 2f)
         {
             float kp = (6f * frequency) * (6f * frequency) * 0.25f;
@@ -41,8 +47,22 @@ namespace ForceBasedMove
             rb.AddForce(F);
         }
 
+        /// <summary>
+        /// Rotate this rigidbody from sourcerotation to target rotation
+        /// </summary>
+        /// <param name="initialRotation">Start rotation</param>
+        /// <param name="destinationRotation">Target rotation</param>
+        /// <param name="damping">See notes</param>
+        /// <param name="frequency">See notes</param>
+        /// Notes:
+        /// According to http://digitalopus.ca/site/pd-controllers/ and David Wu's work: 
+        /// - damping = 1, the system is critically damped
+        /// - damping > 1 the system is over damped(sluggish)
+        /// - damping is less than 1 1 the system is under damped(it will oscillate a little)
+        /// - Frequency is the speed of convergence.If damping is 1, frequency is the 1/time taken to reach ~95% of the target value.i.e.a frequency of 6 will bring you very close to your target within 1/6 seconds.
         public static void AddTorqueTowards(this Rigidbody rb, Quaternion initialRotation, Quaternion destinationRotation, float damping = 1.2f, float frequency = 2f)
         {
+            //TODO Use ksg and kdg, or another way to integrate dt in the calculus
             float kp = (6f * frequency) * (6f * frequency) * 0.25f;
             float kd = 4.5f * frequency * damping;
             Vector3 x;
