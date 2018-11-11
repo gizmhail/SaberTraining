@@ -18,6 +18,11 @@ public class EnergyMove : MonoBehaviour {
     [Tooltip("Button pressure level separating energy raise and energy drag. If 0, any press will lead to a drag, 1 will always raise")]
     public float energyDragStartPressure = 0.2f;
 
+    public GameObject energyEffect;
+
+    [Tooltip("Minimal magnitude of hand estimated velocity vector to trigger energy push (trasnfering hand velocity to object when released)")]
+    public float minHandVelocityMangitudeForEnergyPush = 1.5f;
+
     [Header("Object to look search settings")]
     [Tooltip("Size of the search sphere sent in front of the selected hand")]
     public float searchSphereSize = 0.2f;
@@ -25,8 +30,12 @@ public class EnergyMove : MonoBehaviour {
     public float maxSearchDistance = 20;
 
     public bool useAdvanceMovePhysics = true;
-    
+
     [Header("Advanced move physics settings")]
+    public bool doTranslationMove = true;
+    public bool doRotationMove = false;
+    [Tooltip("The factor used to decrease the movement speed. For instance, if set to 1, a mass of 2 will half the speed.")]
+    float massImpactFactor = 0.1f;
     [Tooltip("Base move speed for an object of mass 1")]
     public float baseMoveSpeed = 5.0f;
     [Tooltip("Locked object mass below this level will be considered as this level")]
@@ -39,6 +48,7 @@ public class EnergyMove : MonoBehaviour {
 
     private Hand hand;
     private Interactable lockedInteractable;
+    private VelocityEstimator handVelocityEstimator;
     private bool lockedInitialGravity;
     private float initialLockedRaiseDistance = 0;
     private float initialLockedDragDistance = 0;
@@ -68,7 +78,11 @@ public class EnergyMove : MonoBehaviour {
         else {
             if (energyPressed)
             {
-                SearchObjectToLock();
+                // We avoid search to energy ock an object, as the user might be currently using the grabbed object
+                if (hand.currentAttachedObject == null)
+                {
+                    SearchObjectToLock();
+                }
             }
         }
 
@@ -92,6 +106,7 @@ public class EnergyMove : MonoBehaviour {
         foreach (var availableHand in Player.instance.hands) {
             if (availableHand.handType == handType) {
                 hand = availableHand;
+                handVelocityEstimator = hand.GetComponent<VelocityEstimator>();
                 return true;
             }
         }
@@ -110,6 +125,12 @@ public class EnergyMove : MonoBehaviour {
                 LockObject(targetRb);
             }
         }
+        if (energyEffect != null) {
+            energyEffect.SetActive(true);
+            energyEffect.transform.position = hand.objectAttachmentPoint.transform.position;
+            energyEffect.transform.rotation = hand.objectAttachmentPoint.transform.rotation;
+        }
+        Debug.DrawRay(HandTargetTransform().position, HandTargetTransform().forward);
     }
 
     void LockObject(Rigidbody rb)
@@ -136,6 +157,12 @@ public class EnergyMove : MonoBehaviour {
             lockable.EnergyUnlocked(this);
         }
         if (lockedRigidbody == rb) {
+            if (handVelocityEstimator != null) {
+                Vector3 handVelocity = handVelocityEstimator.GetVelocityEstimate();
+                if (handVelocity.magnitude > minHandVelocityMangitudeForEnergyPush) {
+                    EnergyPush();
+                }
+            }
             if (lockedInitialGravity != lockedRigidbody.useGravity) {
                 StartCoroutine(DelayGravityRestoration(lockedRigidbody, lockedInitialGravity));
             }
@@ -191,6 +218,15 @@ public class EnergyMove : MonoBehaviour {
         MoveLockedObjectTowardsTarget(targetTransform);
     }
 
+    void EnergyPush()
+    {
+        lockedRigidbody.velocity = handVelocityEstimator.GetVelocityEstimate() / MassMoveDecreaseFactor();
+    }
+
+    float MassMoveDecreaseFactor() {
+        return Mathf.Max(1.0f, massImpactFactor * Mathf.Max(minLockedMass, lockedRigidbody.mass));
+    }
+
     void MoveLockedObjectTowardsTarget(Transform targetTransform)
     {
         MoveLockedObjectTowardsTarget(targetTransform.position, targetTransform.rotation);
@@ -201,7 +237,7 @@ public class EnergyMove : MonoBehaviour {
         if (lockedRigidbody == null) return;
         var sourceTransform = LockedObjectSourceTransform();
 
-        float moveSpeed = baseMoveSpeed / Mathf.Max(minLockedMass, lockedRigidbody.mass);
+        float moveSpeed = baseMoveSpeed / MassMoveDecreaseFactor();
         if (!useAdvanceMovePhysics)
         {
             //Simple version (in case of inability to use Forcemove sources)
@@ -218,8 +254,8 @@ public class EnergyMove : MonoBehaviour {
             // Debug.Log("Flighttime: " + flightTime);
             float damping = 1.2f;
             float frequency = 1.0f/flightTime;
-            lockedRigidbody.AddForceTowards(sourceTransform.position, position, damping, frequency);
-            lockedRigidbody.AddTorqueTowards(sourceTransform.rotation, rotation, damping, frequency);
+            if(doTranslationMove) lockedRigidbody.AddForceTowards(sourceTransform.position, position, damping, frequency);
+            if(doRotationMove) lockedRigidbody.AddTorqueTowards(sourceTransform.rotation, rotation, damping, frequency);
         }
     }
 }

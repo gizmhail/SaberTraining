@@ -65,6 +65,7 @@ namespace ForceBasedMove
             //TODO Use ksg and kdg, or another way to integrate dt in the calculus
             float kp = (6f * frequency) * (6f * frequency) * 0.25f;
             float kd = 4.5f * frequency * damping;
+            
             Vector3 x;
             float xMag;
             Quaternion q = destinationRotation * Quaternion.Inverse(initialRotation);
