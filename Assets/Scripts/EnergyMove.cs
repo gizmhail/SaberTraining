@@ -53,7 +53,6 @@ public class EnergyMove : MonoBehaviour {
     private float initialLockedRaiseDistance = 0;
     private float initialLockedDragDistance = 0;
 
-
     // Use this for initialization
     void Start () {
 	}
@@ -66,6 +65,7 @@ public class EnergyMove : MonoBehaviour {
     private void FixedUpdate()
     {
         if (!IsHandConfigured()) return;
+
         bool energyPressed = SteamVR_Input._default.inActions.InteractUI.GetState(handType);
         float energyLevel = SteamVR_Input._default.inActions.ForceAction.GetAxis(handType);
         if (lockedRigidbody)
