@@ -1,2 +1,5 @@
-MIT License except for Assets\Scripts\Utils\ForceBasedMove.cs, whoe licensing is to determine (based on an article with no license defined explicitly)
+# Assets\Scripts\Utils\ForceBasedMove.cs
+Creative Commons CC0 "No Rights Reserved" license, by DigitalOpus
 
+# Other scripts:
+MIT License, by Sébastien Poivre
