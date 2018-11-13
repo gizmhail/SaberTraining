@@ -6,11 +6,9 @@ using UnityEngine;
  * Based on DigitalOpus article on "CONTROLLING OBJECTS WITH FORCES AND TORQUES":
  * http://digitalopus.ca/site/pd-controllers/
  * More precisly, based on David Wu’s Stable Backwards PD Controller, described in it 
- * (maybe (?) in http://www.pseudointeractive.com/files/physicsandanimationgdc2003.doc)
  * 
- * /!\ /!\ /!\ 
- * License currently undefined. Need to check sources (DigitalOpus) licenses. Do not use in a commercial product currently
- * /!\ /!\ /!\ 
+ * Licence by DigitalOpus: Creative Commons CC0 "No Rights Reserved" license
+ * (https://twitter.com/DigitalOpus/status/1062024948753981441)
  * 
  */
 
