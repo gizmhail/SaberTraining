@@ -23,8 +23,8 @@ public class ForceSaber : MonoBehaviour, EnergyLockable {
     private bool grabPressed = false;
     private float grabPauseTime = 0;
     private bool callingBackSaber = false;
-    #region Monobehavior
- 
+
+    #region Monobehavior 
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
@@ -45,12 +45,6 @@ public class ForceSaber : MonoBehaviour, EnergyLockable {
         {
             ToggleSaber();
         }
-    }
-
-
-
-    private void OnCollisionEnter(Collision collision)
-    {
     }
 
     // Update is called once per frame
@@ -93,7 +87,6 @@ public class ForceSaber : MonoBehaviour, EnergyLockable {
         if (!energyLocked) {
             rb.useGravity = (gravityPausedTime == 0);
         }
-
     }
     #endregion
 
@@ -105,7 +98,7 @@ public class ForceSaber : MonoBehaviour, EnergyLockable {
     #region Interactable callbacks
     void OnDetachedFromHand(Hand hand)
     {
-        Debug.Log("Throw velocity: " + rb.velocity);
+        //Debug.Log("Throw velocity: " + rb.velocity);
         if (rb.velocity.magnitude > forceThrowMinimalVelocity)
         {
             PauseGravity(duration: 5);

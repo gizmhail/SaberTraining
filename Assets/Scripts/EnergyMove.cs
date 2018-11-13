@@ -48,6 +48,7 @@ public class EnergyMove : MonoBehaviour {
 
     private Hand hand;
     private Interactable lockedInteractable;
+    private HandSnappable lockedHandSnapable;
     private VelocityEstimator handVelocityEstimator;
     private bool lockedInitialGravity;
     private float initialLockedRaiseDistance = 0;
@@ -140,6 +141,7 @@ public class EnergyMove : MonoBehaviour {
         }
         lockedRigidbody = rb;
         lockedInteractable = lockedRigidbody.gameObject.GetComponent<Interactable>();
+        lockedHandSnapable = lockedRigidbody.gameObject.GetComponent<HandSnappable>();
         lockedInitialGravity = lockedRigidbody.useGravity;
         lockedRigidbody.useGravity = false;
         UpdateLockedRaiseDistance();
@@ -183,7 +185,9 @@ public class EnergyMove : MonoBehaviour {
 
     Transform LockedObjectSourceTransform() {
         var sourceTransform = lockedRigidbody.transform;
-        if (lockedInteractable != null && lockedInteractable.handFollowTransform != null)
+        if (lockedHandSnapable != null) {
+            sourceTransform = lockedHandSnapable.GetAttachmentPoint(hand);
+        } else if (lockedInteractable != null && lockedInteractable.handFollowTransform != null)
         {
             sourceTransform = lockedInteractable.handFollowTransform;
         }
