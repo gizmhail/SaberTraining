@@ -169,7 +169,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 10
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shotPrefab: {fileID: 1290004234139174, guid: 380d3cc7e26b44745a2ff1b9212d6f2d, type: 2}
   target: {fileID: 0}
-  timeToRotate: 0.2
+  timeToRotate: 0
 --- !u!135 &135465084055345692
 SphereCollider:
   m_ObjectHideFlags: 1

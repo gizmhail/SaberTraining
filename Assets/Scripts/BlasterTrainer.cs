@@ -6,8 +6,7 @@ using Valve.VR.InteractionSystem;
 public class BlasterTrainer : MonoBehaviour {
     public GameObject shotPrefab;
     public GameObject target;
-    public float timeToRotate = 0.2f;
-    Quaternion sourceRotation = Quaternion.identity;
+    public float timeToRotate = 0.6f;
     Quaternion endRotation = Quaternion.identity;
 
     float rotateTime;
@@ -17,22 +16,26 @@ public class BlasterTrainer : MonoBehaviour {
         if (target == null) {
             target = Player.instance.headCollider.gameObject;
         }
-        InvokeRepeating("Shot", 0.5f, 2);
         InvokeRepeating("TargetPlayer", 1, 2.0f);
     }
 
     // Update is called once per frame
-    void Update () {
-        if (endRotation != Quaternion.identity && endRotation != transform.rotation) {
-            transform.rotation = Quaternion.Slerp(transform.rotation, endRotation, timeToRotate * (Time.time - rotateTime));
+    void Update()
+    {
+        if (endRotation != Quaternion.identity && endRotation != transform.rotation)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, endRotation, (Time.time - rotateTime) / timeToRotate);
+        }
+        else if (endRotation != Quaternion.identity && endRotation == transform.rotation)
+        {
+            endRotation = Quaternion.identity;
+            Shot();
         }
     }
 
     void TargetPlayer() {
-        sourceRotation = transform.rotation;
-        Quaternion deltaRotation = Quaternion.FromToRotation(transform.forward, (target.transform.position - transform.position).normalized);
         rotateTime = Time.time;
-        endRotation = deltaRotation * transform.rotation;
+        endRotation = Quaternion.LookRotation(target.transform.position - transform.position);
     }
 
     void Shot()
