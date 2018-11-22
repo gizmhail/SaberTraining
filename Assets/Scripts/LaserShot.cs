@@ -5,8 +5,11 @@ using UnityEngine;
 public class LaserShot : MonoBehaviour {
     public float speed = 3;
     Rigidbody rb;
-	// Use this for initialization
-	void Start () {
+    AudioSource audioSource;
+
+    // Use this for initialization
+    void Start () {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         rb.velocity = speed*transform.forward;
         Destroy(gameObject, 5);
@@ -23,6 +26,7 @@ public class LaserShot : MonoBehaviour {
         rb.velocity = rb.velocity.magnitude * collision.contacts[0].normal;
         rb.angularVelocity = Vector3.zero;
         transform.rotation = Quaternion.LookRotation(collision.contacts[0].normal);
+        audioSource.Play();
     }
 
 }

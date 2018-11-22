@@ -9,11 +9,18 @@ using ForceBasedMove;
 public class ForceSaber : MonoBehaviour, EnergyLockable {
     public float forceThrowMinimalVelocity = 2;
 
+    public AudioClip saberActive;
+    public AudioClip saberToggleOn;
+    public AudioClip saberToggleOff;
+    public float delayFromOnToActiveClip = 0.5f;
+
+    public bool isSaberActive = false;
     Hand attachedHand = null;
     Rigidbody rb;
     VelocityEstimator velocityEstimator;
     Interactable interactable;
     Animator animator;
+    AudioSource audioSource;
 
     float gravityPausedTime = 0;
     float gravityPauseDuration = 0;
@@ -28,6 +35,7 @@ public class ForceSaber : MonoBehaviour, EnergyLockable {
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         interactable = GetComponent<Interactable>();
         velocityEstimator = GetComponent<VelocityEstimator>();
         interactable.onDetachedFromHand += OnDetachedFromHand;
@@ -71,7 +79,7 @@ public class ForceSaber : MonoBehaviour, EnergyLockable {
         }
         if (callingBackSaber)
         {
-            if (animator.GetBool("toggleOn")) ToggleSaber();
+            if (isSaberActive) ToggleSaber();
             PauseGravity(duration: 2);
             Transform sourceTransform = transform;
             if (interactable != null && interactable.handFollowTransform != null)
@@ -90,9 +98,31 @@ public class ForceSaber : MonoBehaviour, EnergyLockable {
     }
     #endregion
 
+    void PlaySaberActiveClip()
+    {
+        if (isSaberActive)
+        {
+            //audioSource.Stop();
+            audioSource.clip = saberActive;
+            if(!audioSource.isPlaying) audioSource.Play();
+            audioSource.loop = true;
+        }
+    }
     void ToggleSaber()
     {
-        animator.SetBool("toggleOn", !animator.GetBool("toggleOn"));
+        isSaberActive = !animator.GetBool("toggleOn");
+        Debug.Log("Saber state: " + !isSaberActive + " -> " + isSaberActive);
+        animator.SetBool("toggleOn", isSaberActive);
+        ///audioSource.Stop();
+        if (isSaberActive) {
+            audioSource.clip = saberToggleOn;
+            Invoke("PlaySaberActiveClip", delayFromOnToActiveClip);
+        }
+        else{
+            audioSource.clip = saberToggleOff;
+        }
+        audioSource.loop = false;
+        audioSource.Play();
     }
 
     #region Interactable callbacks

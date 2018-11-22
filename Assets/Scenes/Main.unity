@@ -4098,6 +4098,101 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftAttachmentOffset: {fileID: 34095577}
   rightAttachmentOffset: {fileID: 1241958997}
+--- !u!82 &924135011
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 924135009}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.489
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &924135020 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4489727381225454, guid: 5e6499d4d5f2a6f4aaeb13ed11ca2809,
@@ -7017,6 +7112,26 @@ Prefab:
         type: 2}
       propertyPath: m_CollisionDetection
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114865786977979384, guid: 5e6499d4d5f2a6f4aaeb13ed11ca2809,
+        type: 2}
+      propertyPath: saberToggleOn
+      value: 
+      objectReference: {fileID: 8300000, guid: 8f44f0d08860db34e94cf7b0e7d1f61b, type: 3}
+    - target: {fileID: 114865786977979384, guid: 5e6499d4d5f2a6f4aaeb13ed11ca2809,
+        type: 2}
+      propertyPath: saberToggleOff
+      value: 
+      objectReference: {fileID: 8300000, guid: 5dca79f3701e5f74d8a6b50473a90937, type: 3}
+    - target: {fileID: 114865786977979384, guid: 5e6499d4d5f2a6f4aaeb13ed11ca2809,
+        type: 2}
+      propertyPath: saberActive
+      value: 
+      objectReference: {fileID: 8300000, guid: 3892893f1e005f4479deaf90665d611e, type: 3}
+    - target: {fileID: 114865786977979384, guid: 5e6499d4d5f2a6f4aaeb13ed11ca2809,
+        type: 2}
+      propertyPath: delayFromOnToActiveClip
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e6499d4d5f2a6f4aaeb13ed11ca2809, type: 2}
