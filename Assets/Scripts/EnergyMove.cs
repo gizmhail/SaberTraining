@@ -8,6 +8,7 @@ using Valve.VR.InteractionSystem;
 interface EnergyLockable {
     void EnergyLocked(EnergyMove lockSource);
     void EnergyUnlocked(EnergyMove lockSource);
+    bool IsImmunetoEnergyMove(EnergyMove source);
 }
 
 public class EnergyMove : MonoBehaviour {
@@ -18,7 +19,7 @@ public class EnergyMove : MonoBehaviour {
     [Tooltip("Button pressure level separating energy raise and energy drag. If 0, any press will lead to a drag, 1 will always raise")]
     public float energyDragStartPressure = 0.2f;
 
-    public GameObject energyEffect;
+    public List<EnergyParticule> energyParticulePrefabs;
 
     [Tooltip("Minimal magnitude of hand estimated velocity vector to trigger energy push (trasnfering hand velocity to object when released)")]
     public float minHandVelocityMangitudeForEnergyPush = 1.5f;
@@ -98,6 +99,30 @@ public class EnergyMove : MonoBehaviour {
                 EnergyRaise();
                 UpdateLockedDragInitialDistance();
             }
+
+        }
+        float energyParticuleSpawnProbabilityPercentage = 20;
+        float energyParticuleSpawnRadius = 0.05f;
+        float minimumDistanceForEnergyParticule = 0.5f;
+        if (energyPressed && hand.currentAttachedObject == null && energyParticulePrefabs.Count > 0) {
+            var energyParticulePrefab = energyParticulePrefabs[Random.Range(0, energyParticulePrefabs.Count)];
+            
+            if (energyParticulePrefab != null && Random.Range(0, 100) > energyParticuleSpawnProbabilityPercentage)
+            {
+                var position = hand.transform.position + energyParticuleSpawnRadius * Random.insideUnitSphere;
+                var rotation = hand.transform.rotation;
+                if (lockedRigidbody == null)
+                {
+                    var energyParticule = EnergyParticule.Instantiate(energyParticulePrefab, position, rotation);
+                    energyParticule.target = null;
+                    energyParticule.targetPosition = HandTargetTransform().position + maxSearchDistance * HandTargetTransform().forward;
+                }
+                else if(Vector3.Distance(position, lockedRigidbody.transform.position)> minimumDistanceForEnergyParticule)
+                {
+                    var energyParticule = EnergyParticule.Instantiate(energyParticulePrefab, position, rotation);
+                    energyParticule.target = lockedRigidbody.gameObject;
+                }
+            }
         }
     }
 
@@ -116,9 +141,8 @@ public class EnergyMove : MonoBehaviour {
 
     void SearchObjectToLock() {
         RaycastHit hit;
-        float searchSphereSize = 0.2f;
-        float maxSearchDistance = 20;
-        if (Physics.SphereCast(hand.objectAttachmentPoint.transform.position, searchSphereSize, hand.objectAttachmentPoint.transform.forward, out hit, maxSearchDistance))
+
+        if (Physics.SphereCast(HandTargetTransform().position, searchSphereSize, HandTargetTransform().forward, out hit, maxSearchDistance))
         {
             var targetRb = hit.rigidbody;
             if (targetRb != null)
@@ -126,16 +150,14 @@ public class EnergyMove : MonoBehaviour {
                 LockObject(targetRb);
             }
         }
-        if (energyEffect != null) {
-            energyEffect.SetActive(true);
-            energyEffect.transform.position = hand.objectAttachmentPoint.transform.position;
-            energyEffect.transform.rotation = hand.objectAttachmentPoint.transform.rotation;
-        }
+
         Debug.DrawRay(HandTargetTransform().position, HandTargetTransform().forward);
     }
 
     void LockObject(Rigidbody rb)
     {
+        var lockable = rb.GetComponent<EnergyLockable>();
+        if (lockable != null && lockable.IsImmunetoEnergyMove(this)) return;
         if (lockedRigidbody != null) {
             UnlockObject(rb);
         }
@@ -146,7 +168,6 @@ public class EnergyMove : MonoBehaviour {
         lockedRigidbody.useGravity = false;
         UpdateLockedRaiseDistance();
         UpdateLockedDragInitialDistance();
-        var lockable = lockedRigidbody.GetComponent<EnergyLockable>();
         if (lockable != null) {
             lockable.EnergyLocked(this);
         }

@@ -6,6 +6,7 @@ using Valve.VR.InteractionSystem;
 public class BlasterTrainer : MonoBehaviour {
     public GameObject shotPrefab;
     public GameObject target;
+    public GameObject explosionPrefab;
     public float timeToRotate = 0.6f;
     Quaternion endRotation = Quaternion.identity;
 
@@ -41,5 +42,21 @@ public class BlasterTrainer : MonoBehaviour {
     void Shot()
     {
         GameObject.Instantiate(shotPrefab, transform.position + 2 * transform.localScale.z * transform.forward, transform.rotation);
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (explosionPrefab != null) {
+            InvokeRepeating("SpawnExplosion", 0, 0.6f);
+            GetComponent<Rigidbody>().useGravity = true;
+            Destroy(gameObject, 0.8f);
+
+        }
+    }
+
+    void SpawnExplosion() {
+        var explosion = GameObject.Instantiate(explosionPrefab, transform.position, transform.rotation);
+        explosion.transform.localScale = 0.3f * explosion.transform.localScale;
     }
 }

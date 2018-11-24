@@ -164,7 +164,9 @@ public class ForceSaber : MonoBehaviour, EnergyLockable {
     {
         gravityPausedTime = 0;
     }
+    #endregion
 
+    #region EnergyLockable
     void EnergyLockable.EnergyLocked(EnergyMove lockSource)
     {
         energyLocked = true;
@@ -176,5 +178,11 @@ public class ForceSaber : MonoBehaviour, EnergyLockable {
         // We prevent our manipulation of the gravity to meddle with gravity restoration by the lock source
         PauseGravity(duration: lockSource.delayBeforeRestoringGravity);
     }
+
+    bool EnergyLockable.IsImmunetoEnergyMove(EnergyMove source)
+    {
+        return false;
+    }
+
     #endregion
 }
