@@ -6,6 +6,7 @@
 - https://assetstore.unity.com/packages/tools/integration/steamvr-plugin-32647
 - https://assetstore.unity.com/packages/3d/props/exterior/stones-40329
 - https://assetstore.unity.com/packages/vfx/particles/war-fx-5669
+- https://assetstore.unity.com/packages/3d/environments/sci-fi/sci-fi-styled-modular-pack-82913
 
 # Problems
 - snap point only defined for left hand currently. See https://github.com/ValveSoftware/steamvr_unity_plugin/issues/186

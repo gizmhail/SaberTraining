@@ -1,0 +1,159 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1072311163525528}
+  m_IsPrefabAsset: 1
+--- !u!1 &1062046815968908
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4148147327805382}
+  - component: {fileID: 114727154375524846}
+  m_Layer: 0
+  m_Name: RightEnergyMove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1072311163525528
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4590418965920046}
+  m_Layer: 0
+  m_Name: EnergySkills
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1761180194325066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4812254806698420}
+  - component: {fileID: 114045330126289616}
+  m_Layer: 0
+  m_Name: LeftEnergyMove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4148147327805382
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1062046815968908}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.69602776, y: -1.70179, z: 2.1625714}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4590418965920046}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4590418965920046
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1072311163525528}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.763551, y: 2.6021774, z: -1.3644747}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4812254806698420}
+  - {fileID: 4148147327805382}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4812254806698420
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1761180194325066}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.69602776, y: -1.70179, z: 2.1625714}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4590418965920046}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114045330126289616
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1761180194325066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0718c0a48f8c0a4a8fb812e8430ec32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockedRigidbody: {fileID: 0}
+  handType: 1
+  delayBeforeRestoringGravity: 1
+  energyDragStartPressure: 0.9
+  energyParticulePrefabs:
+  - {fileID: 114746664408105360, guid: 18acc566b6bfac345ad79b554cdecec6, type: 2}
+  - {fileID: 114746664408105360, guid: 18a596798b09aad44b5de15574a0a657, type: 2}
+  - {fileID: 114746664408105360, guid: 6386a6c8bc743294dba2821bd7c39f0c, type: 2}
+  minHandVelocityMangitudeForEnergyPush: 1.5
+  searchSphereSize: 0.2
+  maxSearchDistance: 20
+  useAdvanceMovePhysics: 1
+  doTranslationMove: 1
+  doRotationMove: 0
+  baseMoveSpeed: 5
+  minLockedMass: 0.5
+  maxFlightTime: 2.5
+  minFlightTime: 0.2
+--- !u!114 &114727154375524846
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1062046815968908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0718c0a48f8c0a4a8fb812e8430ec32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockedRigidbody: {fileID: 0}
+  handType: 2
+  delayBeforeRestoringGravity: 1
+  energyDragStartPressure: 0.9
+  energyParticulePrefabs:
+  - {fileID: 114746664408105360, guid: 18acc566b6bfac345ad79b554cdecec6, type: 2}
+  - {fileID: 114746664408105360, guid: 18a596798b09aad44b5de15574a0a657, type: 2}
+  - {fileID: 114746664408105360, guid: 6386a6c8bc743294dba2821bd7c39f0c, type: 2}
+  minHandVelocityMangitudeForEnergyPush: 1.5
+  searchSphereSize: 0.2
+  maxSearchDistance: 20
+  useAdvanceMovePhysics: 1
+  doTranslationMove: 1
+  doRotationMove: 0
+  baseMoveSpeed: 5
+  minLockedMass: 0.5
+  maxFlightTime: 2.5
+  minFlightTime: 0.2

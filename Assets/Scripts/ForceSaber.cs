@@ -13,6 +13,7 @@ public class ForceSaber : MonoBehaviour, EnergyLockable {
     public AudioClip saberToggleOn;
     public AudioClip saberToggleOff;
     public float delayFromOnToActiveClip = 0.5f;
+    public List<GameObject> energySpots;
 
     public bool isSaberActive = false;
     Hand attachedHand = null;
@@ -158,11 +159,13 @@ public class ForceSaber : MonoBehaviour, EnergyLockable {
     void PauseGravity(float duration) {
         gravityPausedTime = Time.time;
         gravityPauseDuration = duration;
+        foreach (var energySpot in energySpots) energySpot.SetActive(true);
     }
 
     void ReEnableGravity()
     {
         gravityPausedTime = 0;
+        foreach (var energySpot in energySpots) energySpot.SetActive(false);
     }
     #endregion
 
