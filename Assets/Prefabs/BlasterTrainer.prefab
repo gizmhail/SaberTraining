@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1901051703054730}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -0.163, y: 1.418, z: 1.628}
+  m_LocalPosition: {x: -1.728, y: 1.418, z: 1.628}
   m_LocalScale: {x: 0.14195828, y: 0.14195828, z: 0.14195828}
   m_Children:
   - {fileID: 4627331921297452}
@@ -188,7 +188,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shotPrefab: {fileID: 1290004234139174, guid: 380d3cc7e26b44745a2ff1b9212d6f2d, type: 2}
   target: {fileID: 0}
-  timeToRotate: 0
+  explosionPrefab: {fileID: 100006, guid: 2e7e92bc7175b744ea40878dedfa79e4, type: 2}
+  timeToRotate: 0.6
+  rb: {fileID: 0}
 --- !u!135 &135465084055345692
 SphereCollider:
   m_ObjectHideFlags: 1

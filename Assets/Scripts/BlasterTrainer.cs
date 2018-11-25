@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR.InteractionSystem;
+using ForceBasedMove;
 
 public class BlasterTrainer : MonoBehaviour {
     public GameObject shotPrefab;
     public GameObject target;
-    public GameObject explosionPrefab;
     public float timeToRotate = 0.6f;
+    Rigidbody rb;
     Quaternion endRotation = Quaternion.identity;
+    bool isMoving;
+    Vector3 moveTarget;
 
     float rotateTime;
 
@@ -17,7 +20,14 @@ public class BlasterTrainer : MonoBehaviour {
         if (target == null) {
             target = Player.instance.headCollider.gameObject;
         }
-        InvokeRepeating("TargetPlayer", 1, 2.0f);
+        rb = GetComponent<Rigidbody>();
+        PlanTargetPlayer(initialDelay: 1);
+        InvokeRepeating("Move", 4, 5.0f);
+    }
+
+    void PlanTargetPlayer(float initialDelay, float repeatTime = 2.0f) {
+        CancelInvoke("TargetPlayer");
+        InvokeRepeating("TargetPlayer", initialDelay, repeatTime);
     }
 
     // Update is called once per frame
@@ -34,7 +44,21 @@ public class BlasterTrainer : MonoBehaviour {
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (Vector3.Distance(moveTarget, transform.position) < 0.05f && isMoving)
+        {
+            isMoving = false;
+            rb.velocity = Vector3.zero;
+            PlanTargetPlayer(initialDelay: 0);
+        }
+        if (isMoving) {
+            rb.AddForceTowards(transform.position, moveTarget);
+        }
+    }
+
     void TargetPlayer() {
+        if (endRotation != Quaternion.identity) return;
         rotateTime = Time.time;
         endRotation = Quaternion.LookRotation(target.transform.position - transform.position);
     }
@@ -44,19 +68,15 @@ public class BlasterTrainer : MonoBehaviour {
         GameObject.Instantiate(shotPrefab, transform.position + 2 * transform.localScale.z * transform.forward, transform.rotation);
     }
 
-
-    private void OnCollisionEnter(Collision collision)
+    private void Move()
     {
-        if (explosionPrefab != null) {
-            InvokeRepeating("SpawnExplosion", 0, 0.6f);
-            GetComponent<Rigidbody>().useGravity = true;
-            Destroy(gameObject, 0.8f);
-
-        }
-    }
-
-    void SpawnExplosion() {
-        var explosion = GameObject.Instantiate(explosionPrefab, transform.position, transform.rotation);
-        explosion.transform.localScale = 0.3f * explosion.transform.localScale;
+        float moveAmplitude = 0.5f;
+        // See https://docs.unity3d.com/Manual/ComputingNormalPerpendicularVector.html
+        var trainerToTarget = target.transform.position - transform.position;
+        var trainerToRandomAroundTarget = (target.transform.position + Random.insideUnitSphere) - transform.position;
+        var normalToTarget = Vector3.Cross(trainerToTarget, trainerToRandomAroundTarget);
+        moveTarget = transform.position + moveAmplitude * normalToTarget.normalized;
+        isMoving = true;
+        //transform.position = moveTarget;
     }
 }

@@ -112,7 +112,6 @@ public class ForceSaber : MonoBehaviour, EnergyLockable {
     void ToggleSaber()
     {
         isSaberActive = !animator.GetBool("toggleOn");
-        Debug.Log("Saber state: " + !isSaberActive + " -> " + isSaberActive);
         animator.SetBool("toggleOn", isSaberActive);
         ///audioSource.Stop();
         if (isSaberActive) {
